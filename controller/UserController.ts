@@ -1,90 +1,93 @@
 import { NextFunction } from 'express';
 import { Request, Response } from 'express';
-import { getCustomRepository } from 'typeorm';
+import { getCustomRepository, getRepository } from 'typeorm';
 import UseRepository from '../repositorie/UserRepository';
-import { compare, hash } from 'bcrypt';
+import { hash} from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import crypto from 'crypto';
-import { sign } from 'jsonwebtoken';
-import RoleRepository from '../repositorie/RoleRepository';
 import nodemailer from 'nodemailer';
+import Role from '../models/Role';
+import User from '../models/User';
 
 class UserController {
 
     public async signUp(req: Request, res: Response) {
 
-        const userRepository = getCustomRepository(UseRepository);
-        const roleRepository = getCustomRepository(RoleRepository);
+        const roleRepository = getRepository(Role);
+        const userRepository = getRepository(User);
+
 
         const {
             name,
             email,
             password,
             dataNascimento,
-            situacao,
-            rg,
             cpf,
-            phone,
-            roles
+            phone
         } = req.body;
 
-        const existUser = await userRepository.findOne({ name });
-
-        if (existUser) {
-            return res.status(400).json({ message: "Usuário já existe" });
+        const nameExists = await userRepository.findOne({ where: { name } });
+        if (nameExists) {
+            return res.status(409).json({ message: "Este usuário já existe" });
         }
 
+        const emailExists = await userRepository.findOne({ where: { email } });
+        if (emailExists) {
+            return res.status(409).json({ message: "Este email já existe!" });
+        }
 
         const passwordHashed = await hash(password, 8);
 
-        const roleExists = await roleRepository.findByIds(roles);
-
+        const roleUserDefault = await roleRepository.find({ name: 'USER' });
 
         const user = userRepository.create({
             name,
             email,
             password: passwordHashed,
             dataNascimento,
-            situacao,
-            rg,
             cpf,
             phone,
-            roles: roleExists,
+            roles: roleUserDefault
         });
 
 
 
         await userRepository.save(user);
 
-
-
-        return res.status(201).json({ messsage: "Usuário criado com sucesso!" });
+        return res.status(201).json({ message: 'Usuário criado com sucesso!' });
     }
 
     public async signIn(req: Request, res: Response) {
-        const userRpository = getCustomRepository(UseRepository);
-
+        
+        const repo = getRepository(User);
 
         const { email, password } = req.body;
 
-        const user = await userRpository.findOne({ email }, { relations: ["roles"] });
-        
-
+        const user = await repo.findOne({ email }, { relations: ['roles'] });
+        console.log(user);
         if (!user) {
-            return res.status(400).json({ error: "E-mail não encontrado!" });
+            return res.status(404).json({ message: "Este email  não existe" });
         }
-
-        const matchPassword = await compare(password, user.password);
-        if (!matchPassword) {
-            return res.status(400).json({ error: "E-mail ou senha incorreta!" });
+        if (!user.active) {
+            return res.status(404).json({ message: "Este Usuário esta inativo" });
         }
+        const isValidatePassword = await bcrypt.compare(password, user.password as string);
+        
+        if (!isValidatePassword) {
+            return res.status(401).json({ message: "Verifique sua senha" });
+        }
+        const token = jwt.sign({ id: user.id }, 'secret', { expiresIn: '1d' });
 
-        const roles = user.roles.map((role) => role.name);
 
-        const token = sign({}, '6d181f09973a097dace470b377420809', {
-            subject: user.id,
-            expiresIn: '1d'
+       // delete user.password;
+
+        return res.json({
+            message: "Ok",
+            token
         });
-        return res.json({ roles, token });
+
+
     }
     
     public async signInDoctor(req: Request, res: Response, next:NextFunction) {
@@ -159,6 +162,37 @@ class UserController {
         } catch (error) {
             return res.status(404).json({ message: "erro" });
         }
+    }
+    public async enable(req: Request, res: Response) {
+
+        const { id } = req.params;
+
+        const userRepository = getRepository(User);
+
+        const user = await userRepository.findOne({
+            where: { id },
+        });
+
+
+
+        if (!user) {
+            return res.status(404).json({ message: "Este usuário não existe" });
+        }
+
+        const updateUser = userRepository.findOne(user)
+
+
+        user.active = !user.active;
+
+
+
+
+
+
+        await userRepository.save(user);
+
+        return res.status(200).json({ message: "Conta desativada com sucesso!" });
+
     }
 }
 export default new UserController();
