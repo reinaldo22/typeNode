@@ -31,7 +31,7 @@ export class UsersCreate1612200059863 implements MigrationInterface {
 
                     },
                     {
-                        name: 'dataNacimento',
+                        name: 'dataNascimento',
                         type: 'varchar',
 
                     },

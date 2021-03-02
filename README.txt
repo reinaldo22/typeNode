@@ -9,3 +9,5 @@
 9 - npm install bcrypt e adiciona os types (npm install @types/bcrypt -D)
 10 - npm install morgan
 11 - npm install jsonwebtoken (npm install @types/jsonwebtoken -D)
+12 - npm install nodemailer  e npm install @types/nodemailer -D
+13 - npm install express-async-errors --save

@@ -9,7 +9,7 @@ router.post("/cadastro", UserController.signUp);
 router.post("/login", UserController.signIn);
 router.post("/permissions", PermissionController.create);
 router.post("/roles", RoleController.create);
-router.get("/teste", UserController.signInDoctor);
-router.post("/teste", UserController.signInDoctor);
+router.post("/emailUpdate", UserController.forgotPassword);
+
 
 export default router;

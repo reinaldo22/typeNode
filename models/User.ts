@@ -17,7 +17,7 @@ class User {
     password: string;
 
     @Column()
-    dataNacimento: string;
+    dataNascimento: string;
 
     @Column()
     rg: string;
