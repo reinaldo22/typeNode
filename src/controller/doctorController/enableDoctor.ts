@@ -1,6 +1,7 @@
 import { getRepository } from "typeorm";
 import Doctor from "../../models/Doctor";
 import { Request, Response } from 'express';
+import AppError from "../../shared/error/Error";
 
 class EnableDoctorController {
 
@@ -15,14 +16,16 @@ class EnableDoctorController {
         });
 
         if (!user) {
-            return res.status(404).json({ message: "Este usuário não existe" });
+            throw new AppError('Este usuário não existe', 404);
+
         }
 
         user.password = ' ';
         
         await userRepository.save(user);
 
-        return res.status(200).json({ message: "Conta desativada com sucesso!" });
+        throw new AppError('Criado com sucesso',201);
+
 
     }
 }

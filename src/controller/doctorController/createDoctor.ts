@@ -3,6 +3,7 @@ import { getRepository } from "typeorm";
 import { Request, Response } from 'express';
 import Doctor from "../../models/Doctor";
 import ApiCrm from "../../Api/api";
+import AppError from '../../shared/error/Error';
 
 
 
@@ -25,12 +26,12 @@ class CreateDoctorController {
         try {
             const nameExists = await doctorRepository.findOne({ where: { name } });
         if (nameExists) {
-            return res.status(409).json({ message: "Este usuário já existe" });
+            throw new AppError('Nome ja existe');
         }
 
         const emailExists = await doctorRepository.findOne({ where: { email } });
         if (emailExists) {
-            return res.status(409).json({ message: "Este email já existe!" });
+            throw new AppError('Email ja existe');
         }
         const salt = await bcrypt.genSalt(10);
         const passwordHashed = await bcrypt.hash(password, salt);
@@ -49,11 +50,11 @@ class CreateDoctorController {
                 });
 
                 doctorRepository.save(doctorUser);
-
-                return res.status(201).json({ message: 'Médico criado com sucesso!' });
+                throw new AppError('Mèdico criado com sucesso!', 2001);
+                //return res.status(201).json({ message: 'Médico criado com sucesso!' });
 
             }
-            return res.status(401).json({ message: 'Não foi possível continuar seu cadastro, verifique sua situação junto do CRM' });
+            throw new AppError('Não foi criado', 401);
         })
         } catch (error) {
             console.log(">>>>>>>>>>>>>>>>>>>"+error);

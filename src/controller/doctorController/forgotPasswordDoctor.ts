@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import { hash } from 'bcryptjs';
+import AppError from "../../shared/error/Error";
 
 class ForgotDoctorPassword {
 
@@ -42,12 +43,13 @@ class ForgotDoctorPassword {
                                 password
                             }).then(
                                 () => {
-                                    return res.status(200).json({ message: "email sended" })
+                                    throw new AppError('E-mail enviado com sucesso!',200);
+
                                 }
 
                             ).catch(
                                 () => {
-                                    return res.status(404).json({ message: "user not found" })
+                                    throw new AppError('Não existe', 404);
                                 }
                             )
                         }
