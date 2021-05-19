@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import express,{ NextFunction, Request, Response } from 'express';
+import 'express-async-errors';
 import './database/connect';
 import userRoutes from './routes/userRouter';
 import requisitionRouter from './routes/requisitionRouter';
 import morgan from 'morgan';
-import 'express-async-errors';
 import AppError from './shared/error/Error';
 
 

@@ -1,7 +1,7 @@
 {
   "name": "GAIT",
   "version": "1.0.0",
-  "description": "",
+  "description": "1 - npm init -y\r 2 - npm install typescript ts-node nodemon -D\r 3 - npx typescript --init\r 4 - npm install express \r 5 - npm install @types/express -D\r 6 - npm install typeorm pg reflect-metadata\r 7 - npx typeorm migration:create -n UsersCreate(cria migrations) \r 8 - após criar a migration executar  comando(npx typeorm migration:run) ou (ts-node ./node_modules/typeorm/cli.js migration:run)\r 9 - npm install bcrypt e adiciona os types (npm install @types/bcrypt -D)\r 10 - npm install morgan\r 11 - npm install jsonwebtoken (npm install @types/jsonwebtoken -D)\r 12 - npm install axios --save\r 13 - npm install bcrypt",
   "main": "index.js",
   "scripts": {
     "dev": "npx nodemon --exec ts-node --files src/index.ts",
@@ -34,5 +34,13 @@
     "pg": "^8.5.1",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.30"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reinaldo22/typeNode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/reinaldo22/typeNode/issues"
+  },
+  "homepage": "https://github.com/reinaldo22/typeNode#readme"
 }
