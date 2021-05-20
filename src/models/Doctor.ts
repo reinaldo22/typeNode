@@ -10,6 +10,9 @@ class Doctor {
     id: number;
 
     @Column()
+    token: string;
+
+    @Column()
     email: string;
 
     @Column()
@@ -25,7 +28,13 @@ class Doctor {
     password?: string;
 
     @Column()
+    activate:number;
+
+    @Column()
     phone: string;
+
+    @Column()
+    specialization: string;
 
 
     @Column({
