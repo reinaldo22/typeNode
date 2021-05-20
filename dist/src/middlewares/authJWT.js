@@ -12,11 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.isUser = exports.isDoctor = exports.verifyToken = void 0;
+exports.isDoctor = exports.verifyToken = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const typeorm_1 = require("typeorm");
 const doctorRepositorie_1 = __importDefault(require("../repositorie/doctorRepositorie"));
-const userRepositorie_1 = __importDefault(require("../repositorie/userRepositorie"));
 const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.headers.authorization;
     if (!token)
@@ -28,7 +27,7 @@ const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         return next();
     }
     catch (error) {
-        res.sendStatus(401);
+        res.status(401).json({ message: 'Erro ', error });
     }
     /*const decode = jwt.decode(token);
 
@@ -49,14 +48,16 @@ const isDoctor = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
     return res.status(401).json({ message: 'Você não possui permissão de administrador' });
 });
 exports.isDoctor = isDoctor;
-const isUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const userRepository = typeorm_1.getCustomRepository(userRepositorie_1.default);
+/*export const isUser = async (req: Request, res: Response, next: NextFunction) => {
+    const userRepository = getCustomRepository(UserRepository);
     const id = req.userId;
-    const user = yield userRepository.findOne({ where: { id } });
-    if ((user === null || user === void 0 ? void 0 : user.role) === "user") {
+
+    const user = await userRepository.findOne({ where: { id } })
+    if (user?.role === "user") {
         next();
         return;
     }
     return res.status(401).json({ message: 'Você não possui permissão' });
-});
-exports.isUser = isUser;
+}
+
+*/

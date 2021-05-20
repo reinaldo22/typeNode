@@ -1,7 +1,7 @@
 import {Router} from 'express';
-import AllUsers from '../controller/doctorController/getAllUsers';
+
 const routes = Router();
 
-routes.get('/index', AllUsers.todos);
+routes.get('/')
 
 export default routes;

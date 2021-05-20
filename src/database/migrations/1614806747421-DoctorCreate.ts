@@ -15,6 +15,11 @@ export class DoctorCreate1614806747421 implements MigrationInterface {
                         default: 'uuid_generate_v4()'
                     },
                     {
+                        name: 'token',
+                        type: 'varchar',
+                        
+                    },
+                    {
                         name: 'name',
                         type: 'varchar',
 
@@ -40,7 +45,19 @@ export class DoctorCreate1614806747421 implements MigrationInterface {
 
                     },
                     {
+                        name: 'activate',
+                        type: 'varchar',
+                        default:0,
+
+                    },
+                    {
                         name: 'phone',
+                        type: 'varchar',
+
+                    },
+                    
+                    {
+                        name: 'specialization',
                         type: 'varchar',
 
                     },

@@ -19,6 +19,9 @@ class LoginDoctorController {
         if (!doctor.password) {
             return res.status(404).json({ message: "Este Usuário esta inativo" });
         }
+        if (doctor.activate === 0) {
+            return res.status(404).json({ message: "Confirme seu cadastro" });
+        }
         
         const isValidatePassword = await bcrypt.compare(password, doctor.password as string);
 
@@ -29,6 +32,7 @@ class LoginDoctorController {
 
 
         return res.json({
+            doctor,
             message: "Ok",
             token
         });

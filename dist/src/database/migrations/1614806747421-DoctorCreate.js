@@ -25,6 +25,10 @@ class DoctorCreate1614806747421 {
                         default: 'uuid_generate_v4()'
                     },
                     {
+                        name: 'token',
+                        type: 'varchar',
+                    },
+                    {
                         name: 'name',
                         type: 'varchar',
                     },
@@ -45,7 +49,16 @@ class DoctorCreate1614806747421 {
                         type: 'varchar',
                     },
                     {
+                        name: 'activate',
+                        type: 'varchar',
+                        default: 0,
+                    },
+                    {
                         name: 'phone',
+                        type: 'varchar',
+                    },
+                    {
+                        name: 'specialization',
                         type: 'varchar',
                     },
                     {

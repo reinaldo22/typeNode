@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import { NextFunction, Request, Response } from "express";
 import { getCustomRepository } from 'typeorm';
 import DoctorRepository from '../repositorie/doctorRepositorie';
-import UserRepository from '../repositorie/userRepositorie';
+/*import UserRepository from '../repositorie/userRepositorie';*/
 
 interface TokenPayload {
     id: string;
@@ -30,7 +30,7 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
 
 
     } catch (error) {
-        res.sendStatus(401);
+        res.status(401).json({message:'Erro ', error});
     }
 
 
@@ -55,7 +55,7 @@ export const isDoctor = async (req: Request, res: Response, next: NextFunction) 
     }
     return res.status(401).json({ message: 'Você não possui permissão de administrador' });
 }
-export const isUser = async (req: Request, res: Response, next: NextFunction) => {
+/*export const isUser = async (req: Request, res: Response, next: NextFunction) => {
     const userRepository = getCustomRepository(UserRepository);
     const id = req.userId;
 
@@ -67,7 +67,7 @@ export const isUser = async (req: Request, res: Response, next: NextFunction) =>
     return res.status(401).json({ message: 'Você não possui permissão' });
 }
 
-
+*/
 
 
 

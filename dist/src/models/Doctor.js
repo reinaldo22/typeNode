@@ -19,6 +19,10 @@ __decorate([
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
+], Doctor.prototype, "token", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
 ], Doctor.prototype, "email", void 0);
 __decorate([
     typeorm_1.Column(),
@@ -38,8 +42,16 @@ __decorate([
 ], Doctor.prototype, "password", void 0);
 __decorate([
     typeorm_1.Column(),
+    __metadata("design:type", Number)
+], Doctor.prototype, "activate", void 0);
+__decorate([
+    typeorm_1.Column(),
     __metadata("design:type", String)
 ], Doctor.prototype, "phone", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], Doctor.prototype, "specialization", void 0);
 __decorate([
     typeorm_1.Column({
         type: "enum",

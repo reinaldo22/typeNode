@@ -13,22 +13,31 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
+const doctorRepositorie_1 = __importDefault(require("../../repositorie/doctorRepositorie"));
 const Doctor_1 = __importDefault(require("../../models/Doctor"));
-class EnableDoctorController {
-    enable(req, res) {
+class ProfileController {
+    show(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
-            const userRepository = typeorm_1.getRepository(Doctor_1.default);
-            const user = yield userRepository.findOne({
-                where: { id },
-            });
+            const showProfile = typeorm_1.getCustomRepository(doctorRepositorie_1.default);
+            const user_id = request.userId;
+            const user = yield showProfile.findById(user_id);
             if (!user) {
-                return res.status(404).json({ message: "Este usuário não existe" });
+                response.status(404).json({ message: 'Este usuário não existe' });
             }
-            user.password = ' ';
-            yield userRepository.save(user);
-            return res.status(200).json({ message: "Conta desativada com sucesso!" });
+            return response.json(user);
         });
     }
+    updateProfile(request, response) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const userDoc = yield typeorm_1.getRepository(Doctor_1.default).findOne(request.params.id);
+            if (userDoc) {
+                typeorm_1.getRepository(Doctor_1.default).merge(userDoc, request.body);
+                const results = yield typeorm_1.getRepository(Doctor_1.default).save(userDoc);
+                return response.json(results);
+            }
+            return response.status(404).json({ message: "User not found" });
+        });
+    }
+    ;
 }
-exports.default = new EnableDoctorController();
+exports.default = new ProfileController();

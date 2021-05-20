@@ -12,43 +12,40 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const typeorm_1 = require("typeorm");
-const Doctor_1 = __importDefault(require("../../models/Doctor"));
 const api_1 = __importDefault(require("../../Api/api"));
-const Error_1 = __importDefault(require("../../shared/error/Error"));
+const doctorRepositorie_1 = __importDefault(require("../../repositorie/doctorRepositorie"));
+const createDoctorService_1 = __importDefault(require("../../services/createDoctorService"));
 class CreateDoctorController {
     createDoctor(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const doctorRepository = typeorm_1.getRepository(Doctor_1.default);
-            const { name, email, password, cpf, crm, phone } = req.body;
+            const { name, email, password, cpf, specialization, crm, phone } = req.body;
+            const doctorRepository = typeorm_1.getCustomRepository(doctorRepositorie_1.default);
             try {
-                const nameExists = yield doctorRepository.findOne({ where: { name } });
-                if (nameExists) {
-                    throw new Error_1.default('Nome ja existe');
-                }
-                const emailExists = yield doctorRepository.findOne({ where: { email } });
+                const emailExists = yield doctorRepository.findByEmail(email);
                 if (emailExists) {
-                    throw new Error_1.default('Email ja existe');
+                    return res.status(409).json({ message: "Este email já existe!" });
                 }
-                const salt = yield bcryptjs_1.default.genSalt(10);
-                const passwordHashed = yield bcryptjs_1.default.hash(password, salt);
+                const nameExists = yield doctorRepository.findByName(name);
+                if (nameExists) {
+                    return res.status(409).json({ message: "Este usuário já existe" });
+                }
+                const createDoctor = new createDoctorService_1.default();
                 const situacao = api_1.default.getName(name);
                 situacao.then(function (response) {
                     if (response === 'Ativo') {
-                        const doctorUser = doctorRepository.create({
+                        const doctor = createDoctor.execute({
                             name,
                             email,
-                            password: passwordHashed,
+                            password,
                             cpf,
+                            specialization,
                             crm,
-                            phone
+                            phone,
                         });
-                        doctorRepository.save(doctorUser);
-                        throw new Error_1.default('Mèdico criado com sucesso!', 2001);
-                        //return res.status(201).json({ message: 'Médico criado com sucesso!' });
+                        return res.status(201).json({ message: 'Médico criado com sucesso!' });
                     }
-                    throw new Error_1.default('Não foi criado', 401);
+                    return res.status(401).json({ message: 'Não foi possível continuar seu cadastro, verifique sua situação junto do CRM' });
                 });
             }
             catch (error) {

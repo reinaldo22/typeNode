@@ -17,7 +17,6 @@ const doctorRepositorie_1 = __importDefault(require("../../repositorie/doctorRep
 const nodemailer_1 = __importDefault(require("nodemailer"));
 const crypto_1 = __importDefault(require("crypto"));
 const bcryptjs_1 = require("bcryptjs");
-const Error_1 = __importDefault(require("../../shared/error/Error"));
 class ForgotDoctorPassword {
     forgotDoctorPassword(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -48,9 +47,9 @@ class ForgotDoctorPassword {
                         doctorRepository.update(user[0].id, {
                             password
                         }).then(() => {
-                            throw new Error_1.default('E-mail enviado com sucesso!', 200);
+                            return res.status(200).json({ message: "email sended" });
                         }).catch(() => {
-                            throw new Error_1.default('Não existe', 404);
+                            return res.status(404).json({ message: "user not found" });
                         });
                     });
                 }).catch(() => {

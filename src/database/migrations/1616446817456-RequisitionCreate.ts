@@ -22,6 +22,7 @@ export class RequisitionCreate1616446817456 implements MigrationInterface {
                         name: 'name',
                         type: 'varchar'
                     },
+                
                     {
                         name: 'created_at',
                         type: 'timestamp',

@@ -1,11 +1,19 @@
-import {Response, Request} from 'express';
+import { getRepository } from 'typeorm';
+import { Request, Response } from 'express';
+import Doctor from '../../models/Doctor';
 
 class AllUsers{
 
-    public async todos(req: Request, res: Response) {
 
-        return res.status(200).json({message:"Rota funcionando"})
+    public async getAll(req:Request, res:Response): Promise<Response>{
+        
+        const allDoctors = await getRepository(Doctor).find();
+
+        console.log(">>>>>>>>>>>>",allDoctors);
+
+        return res.json(allDoctors);
     }
 
 }
+
 export default new AllUsers();

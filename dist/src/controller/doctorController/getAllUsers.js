@@ -8,11 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const typeorm_1 = require("typeorm");
+const Doctor_1 = __importDefault(require("../../models/Doctor"));
 class AllUsers {
-    todos(req, res) {
+    getAll(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            return res.status(200).json({ message: "Rota funcionando" });
+            const allDoctors = yield typeorm_1.getRepository(Doctor_1.default).find();
+            console.log(">>>>>>>>>>>>", allDoctors);
+            return res.json(allDoctors);
         });
     }
 }

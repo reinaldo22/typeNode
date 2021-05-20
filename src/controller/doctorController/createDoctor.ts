@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
 import ApiCrm from '../../Api/api';
 import DoctorRepository from '../../repositorie/doctorRepositorie';
-import CreateDoctorService from '../../service/createDoctorService';
+import CreateDoctorService from '../../services/createDoctorService';
 
 
 

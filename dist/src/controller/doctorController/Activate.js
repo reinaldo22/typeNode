@@ -13,21 +13,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-const testando_1 = __importDefault(require("../../models/testando"));
+const Doctor_1 = __importDefault(require("../../models/Doctor"));
 class Activate {
     verifyActivate(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const { token } = req.params;
-            const testeRepository = typeorm_1.getRepository(testando_1.default);
+            const testeRepository = typeorm_1.getRepository(Doctor_1.default);
             console.log("roken=>", token);
-            const test = yield testeRepository.findOne({
+            const doctor = yield testeRepository.findOne({
                 where: { token },
             });
-            if (!test) {
+            if (!doctor) {
                 return res.status(404).json({ message: "Este usuário não existe" });
             }
-            test.activate = 1;
-            yield testeRepository.save(test);
+            doctor.activate = 1;
+            yield testeRepository.save(doctor);
             return res.status(200).json({ message: "Cadastro validado!" });
         });
     }
