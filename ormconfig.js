@@ -1,4 +1,3 @@
-console.log('process.env.DATABASE_URL :>>', process.env.DATABASE_URL)
 module.exports = {
    "type": "postgres",
     "host": "ec2-107-22-245-82.compute-1.amazonaws.com",
@@ -6,9 +5,6 @@ module.exports = {
     "username": "nhnadhpetkevpx",
     "password": "2a2c69886377dd9fc6619ef5f08cbdd795451d4dbadba49e5c2d131165e58a2e",
     "database": "dbgoiekp2vseuo",
-    "ssl": {
-      "rejectUnauthorized": false
-  },
    "url":process.env.DATABASE_URL,
     "entities": [
        "dist/src/models/*.js"
