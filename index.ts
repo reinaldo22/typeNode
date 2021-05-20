@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import 'reflect-metadata';
 import express,{ NextFunction, Request, Response } from 'express';
 import 'express-async-errors';
@@ -7,6 +8,7 @@ import indexRoutes from './src/routes/index';
 import requisitionRouter from './src/routes/requisitionRouter';
 import morgan from 'morgan';
 
+dotenv.config();
 
 const app = express();
 
@@ -14,9 +16,9 @@ const cors = require('cors');
 
 app.use(cors());
  
+
 app.use(morgan('dev'));
 app.use(express.json());
-
 app.use(userRoutes);
 app.use(requisitionRouter);
 app.use(indexRoutes);
