@@ -40,13 +40,13 @@ class CreateDoctorService {
                 host: 'smtp.mailtrap.io',
                 port: 2525,
                 auth: {
-                    user: "98b9ff94843710",
-                    pass: "5bf821b88c9c02"
+                    user: "0be89881ec1c58",
+                    pass: "f2fa7550b78068"
                 }
             });
-            const url = `http://localhost:8081/activate/${token}`;
+            const url = `https://server-gait.herokuapp.com/activate/${token}`;
             transport.sendMail({
-                from: 'Testando <b06b889ecb-0f0faf@inbox.mailtrap.io>',
+                from: 'Testando <92fe25ba83-325b9d@inbox.mailtrap.io>',
                 to: email,
                 subject: 'Cadastro Realizado com sucesso',
                 html: `Para confirmar seu cadastro click no link: <a href="${url}">${url}</a>`

@@ -32,8 +32,8 @@ class ForgotDoctorPassword {
                     host: 'smtp.mailtrap.io',
                     port: 2525,
                     auth: {
-                        user: "98b9ff94843710",
-                        pass: "5bf821b88c9c02"
+                        user: "0be89881ec1c58",
+                        pass: "f2fa7550b78068"
                     }
                 });
                 const newPassword = crypto_1.default.randomBytes(4).toString('hex');
