@@ -4,6 +4,7 @@ import './database/connect';
 import userRoutes from './routes/userRouter';
 import requisitionRouter from './routes/requisitionRouter';
 import justificationRouter from './routes/justificationRouter';
+import Index from './routes/index';
 import morgan from 'morgan';
 import 'express-async-errors';
 
@@ -18,8 +19,10 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 
+
 app.use(userRoutes);
 app.use(justificationRouter);
+app.use(Index);
 app.use(requisitionRouter);
 
 
