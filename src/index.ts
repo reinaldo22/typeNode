@@ -4,8 +4,8 @@ import { Request, Response, NextFunction } from 'express';
 import './database/connect';
 import userRoutes from './routes/userRouter';
 import requisitionRouter from './routes/requisitionRouter';
+import justificationRouter from './routes/justificationRouter';
 import morgan from 'morgan';
-import AppError from './shared/errors/AppErros';
 import 'express-async-errors';
 
 
@@ -20,6 +20,7 @@ app.use(morgan('dev'));
 app.use(express.json());
 
 app.use(userRoutes);
+app.use(justificationRouter);
 app.use(requisitionRouter);
 
 
