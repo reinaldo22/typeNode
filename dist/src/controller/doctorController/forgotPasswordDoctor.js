@@ -23,11 +23,10 @@ class ForgotDoctorPassword {
             const doctorRepository = typeorm_1.getCustomRepository(doctorRepositorie_1.default);
             const { email } = req.body;
             try {
-                const user = yield doctorRepository.find({
-                    where: {
-                        email
-                    }
-                });
+                const user = yield doctorRepository.findByEmail(email);
+                if (!user) {
+                    return res.status(404).json({ message: "user not found" });
+                }
                 var transport = nodemailer_1.default.createTransport({
                     host: 'smtp.mailtrap.io',
                     port: 2525,
@@ -38,13 +37,13 @@ class ForgotDoctorPassword {
                 });
                 const newPassword = crypto_1.default.randomBytes(4).toString('hex');
                 transport.sendMail({
-                    from: 'Testando <b06b889ecb-0f0faf@inbox.mailtrap.io>',
+                    from: 'Testando <92fe25ba83-325b9d@inbox.mailtrap.io>',
                     to: email,
                     subject: 'Recuperacao de senha',
                     text: `Olá sua senha é: ${newPassword}`
                 }).then(() => {
                     bcryptjs_1.hash(newPassword, 8).then(password => {
-                        doctorRepository.update(user[0].id, {
+                        doctorRepository.update(user.id, {
                             password
                         }).then(() => {
                             return res.status(200).json({ message: "email sended" });
