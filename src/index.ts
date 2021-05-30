@@ -1,6 +1,5 @@
 import 'reflect-metadata';
 import express from 'express';
-import { Request, Response, NextFunction } from 'express';
 import './database/connect';
 import userRoutes from './routes/userRouter';
 import requisitionRouter from './routes/requisitionRouter';
@@ -25,4 +24,4 @@ app.use(requisitionRouter);
 
 
 
-app.listen(8081, () => console.log('Server started'));
+app.listen(process.env.PORT, () => console.log('Server started'));
