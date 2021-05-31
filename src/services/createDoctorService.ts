@@ -51,7 +51,7 @@ class CreateDoctorService {
                 }
         });
 
-        const url = `https://dashboard.heroku.com/apps/server-gait/activate/${token}`
+        const url = `https://server-gait.herokuapp.com/activate/${token}`
         transport.sendMail({
             from: 'Testando <92fe25ba83-325b9d@inbox.mailtrap.io>',
             to: email,
