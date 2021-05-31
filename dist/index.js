@@ -19,4 +19,4 @@ app.use(express_1.default.json());
 app.use(userRouter_1.default);
 app.use(requisitionRouter_1.default);
 app.use(justificationRouter_1.default);
-app.listen(8081, () => console.log('Server started'));
+app.listen(process.env.PORT, () => console.log('Server started'));

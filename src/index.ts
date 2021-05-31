@@ -1,3 +1,4 @@
+import dotenv from 'dotenv';
 import 'reflect-metadata';
 import express from 'express';
 import './database/connect';
@@ -23,4 +24,4 @@ app.use(requisitionRouter);
 app.use(justificationRouter);
 
 
-app.listen(8081, () => console.log('Server started'));
+app.listen(process.env.PORT, () => console.log('Server started'));
