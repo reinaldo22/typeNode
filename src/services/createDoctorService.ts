@@ -51,7 +51,7 @@ class CreateDoctorService {
                 }
         });
 
-        const url = `http://localhost:8081/activate/${token}`
+        const url = `https://dashboard.heroku.com/apps/server-gait/activate/${token}`
         transport.sendMail({
             from: 'Testando <92fe25ba83-325b9d@inbox.mailtrap.io>',
             to: email,
