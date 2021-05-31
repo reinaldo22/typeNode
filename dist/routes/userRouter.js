@@ -10,11 +10,15 @@ const loginDoctor_1 = __importDefault(require("../controller/doctorController/lo
 const Activate_1 = __importDefault(require("../controller/doctorController/Activate"));
 const ProfileController_1 = __importDefault(require("../controller/doctorController/ProfileController"));
 const getAllUsers_1 = __importDefault(require("../controller/doctorController/getAllUsers"));
+const forgotPasswordDoctor_1 = __importDefault(require("../controller/doctorController/forgotPasswordDoctor"));
+const enableDoctor_1 = __importDefault(require("../controller/doctorController/enableDoctor"));
 const routes = express_1.Router();
 routes.post('/doctorSignUp', createDoctor_1.default.createDoctor);
 routes.get('/activate/:token', Activate_1.default.verifyActivate);
-routes.get('/allUser', getAllUsers_1.default.getAll);
+routes.get('/allUser', [authJWT_1.verifyToken, authJWT_1.isDoctor], getAllUsers_1.default.getAll);
 routes.post('/signInDoctor', loginDoctor_1.default.signInDoctor);
 routes.get('/showProfile', [authJWT_1.verifyToken, authJWT_1.isDoctor], ProfileController_1.default.show);
 routes.put('/updateUser/:id', [authJWT_1.verifyToken, authJWT_1.isDoctor], ProfileController_1.default.updateProfile);
+routes.patch('/enable/:id', [authJWT_1.verifyToken, authJWT_1.isDoctor], enableDoctor_1.default.enable);
+routes.post('/emailUpdate', forgotPasswordDoctor_1.default.forgotDoctorPassword);
 exports.default = routes;

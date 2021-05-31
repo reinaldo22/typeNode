@@ -34,7 +34,7 @@ class LoginDoctorController {
             }
             const isValidatePassword = yield bcryptjs_1.default.compare(password, doctor.password);
             if (!isValidatePassword) {
-                return res.status(401).json({ message: "Verifique sua senha" });
+                return res.status(401).json({ message: "E-mail ou senha incorretos" });
             }
             const token = jsonwebtoken_1.default.sign({ id: doctor.id }, 'secret', { expiresIn: '1d' });
             return res.json({

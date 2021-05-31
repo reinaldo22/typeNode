@@ -27,8 +27,6 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
         return next();
 
 
-
-
     } catch (error) {
         res.status(401).json({message:'Erro ', error});
     }

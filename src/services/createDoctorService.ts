@@ -40,26 +40,24 @@ class CreateDoctorService {
         });
 
 
-
         doctorRepository.save(doctor);
 
         var transport = nodemailer.createTransport({
             host: 'smtp.mailtrap.io',
-            port: 2525,
-            auth: {
-                user: "0be89881ec1c58",
-                pass: "f2fa7550b78068"
-            }
+                port: 2525,
+                auth: {
+                    user: "0be89881ec1c58",
+                    pass: "f2fa7550b78068"
+                }
         });
 
-        const url = `https://server-gait.herokuapp.com/activate/${token}`
+        const url = `http://localhost:8081/activate/${token}`
         transport.sendMail({
             from: 'Testando <92fe25ba83-325b9d@inbox.mailtrap.io>',
             to: email,
             subject: 'Cadastro Realizado com sucesso',
             html: `Para confirmar seu cadastro click no link: <a href="${url}">${url}</a>`
         })
-
     }
 }
 export default CreateDoctorService;

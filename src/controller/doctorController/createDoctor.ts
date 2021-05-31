@@ -6,7 +6,6 @@ import CreateDoctorService from '../../services/createDoctorService';
 
 
 
-
 class CreateDoctorController {
 
 
@@ -34,9 +33,6 @@ class CreateDoctorController {
             if (nameExists) {
                 return res.status(409).json({ message: "Este usuário já existe" });
             }
-
-
-
             const createDoctor = new CreateDoctorService();
             const situacao = ApiCrm.getName(name);
 
@@ -52,10 +48,7 @@ class CreateDoctorController {
                     crm,
                     phone,
                 });
-
-
                 return res.status(201).json({ message: 'Médico criado com sucesso!' });
-
             }
             return res.status(401).json({ message: 'Não foi possível continuar seu cadastro, verifique sua situação junto do CRM' });
         })

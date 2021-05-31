@@ -26,8 +26,9 @@ class LoginDoctorController {
         const isValidatePassword = await bcrypt.compare(password, doctor.password as string);
 
         if (!isValidatePassword) {
-            return res.status(401).json({ message: "Verifique sua senha" });
+            return res.status(401).json({ message: "E-mail ou senha incorretos" });
         }
+        
         const token = jwt.sign({ id: doctor.id }, 'secret', { expiresIn: '1d' });
 
 

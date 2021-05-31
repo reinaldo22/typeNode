@@ -23,7 +23,6 @@ class EnableDoctorController {
         await userRepository.save(user);
 
         return res.status(200).json({ message: "Conta desativada com sucesso!" });
-
     }
 }
 

@@ -35,6 +35,7 @@ export class RequisitionCreate1616446817456 implements MigrationInterface {
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.dropTable('requisition');
+        await queryRunner.query('DROP EXTENSION "uuid-ossp"');
     }
 
 }

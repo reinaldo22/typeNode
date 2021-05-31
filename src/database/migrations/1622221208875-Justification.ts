@@ -1,6 +1,6 @@
 import {MigrationInterface, QueryRunner, Table} from "typeorm";
 
-export class Justification1622407886998 implements MigrationInterface {
+export class Justification1622221208875 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
@@ -31,8 +31,10 @@ export class Justification1622407886998 implements MigrationInterface {
             })
         )
     }
+
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.dropTable('justification');
+        await queryRunner.query('DROP EXTENSION "uuid-ossp"');
     }
 
 }

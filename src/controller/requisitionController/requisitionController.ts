@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
-
 import Requisition from '../../models/Requisition';
 
 class RequisitionController {

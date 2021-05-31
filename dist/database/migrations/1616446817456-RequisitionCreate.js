@@ -44,6 +44,7 @@ class RequisitionCreate1616446817456 {
     down(queryRunner) {
         return __awaiter(this, void 0, void 0, function* () {
             yield queryRunner.dropTable('requisition');
+            yield queryRunner.query('DROP EXTENSION "uuid-ossp"');
         });
     }
 }

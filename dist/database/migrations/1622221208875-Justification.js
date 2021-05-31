@@ -9,9 +9,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Justification1622407886998 = void 0;
+exports.Justification1622221208875 = void 0;
 const typeorm_1 = require("typeorm");
-class Justification1622407886998 {
+class Justification1622221208875 {
     up(queryRunner) {
         return __awaiter(this, void 0, void 0, function* () {
             yield queryRunner.createTable(new typeorm_1.Table({
@@ -44,7 +44,8 @@ class Justification1622407886998 {
     down(queryRunner) {
         return __awaiter(this, void 0, void 0, function* () {
             yield queryRunner.dropTable('justification');
+            yield queryRunner.query('DROP EXTENSION "uuid-ossp"');
         });
     }
 }
-exports.Justification1622407886998 = Justification1622407886998;
+exports.Justification1622221208875 = Justification1622221208875;
