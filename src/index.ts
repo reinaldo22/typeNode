@@ -24,4 +24,4 @@ app.use(requisitionRouter);
 app.use(justificationRouter);
 
 
-app.listen(process.env.PORT, () => console.log('Server started'));
+app.listen(process.env.PORT || 9000, () => console.log('Server started'));
