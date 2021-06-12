@@ -39,11 +39,11 @@ class ForgotDoctorPassword {
                 html: `Para redefinir sua senha click no link => <a href="${url}">${url}</a>`
             }).then(
                 ()=>{
-                    return res.status(200).json({message: 'Enviamos um e-mail com o link de redefinição de senha para o e-mail cadastrado,acesse seu e-mail para alterar a senha'})
+                    return res.status(200).json({message: 'We send an email with the password reset link to the registered email, access your email to change the password'})
                 }
             ).catch(
                 ()=>{
-                    return res.status(400).json({message:"Falha ao enviar e-mail"})
+                    return res.status(400).json({message:"Failed to send email"})
                 }
             )
         } catch (error) {
@@ -59,11 +59,11 @@ class ForgotDoctorPassword {
         const user = await getRepository(Doctor).findOne(req.params.id);
         
         if(!user){
-            return res.status(404).json({message:'Este usuário não existe no sistema'})
+            return res.status(404).json({message:'This user does not exist in the system'})
         }
         const isValidatePassword = await bcrypt.compare(password, user.password as string)
         if(isValidatePassword){
-            return res.status(404).json({message:'Não poderá usar a senha antiga'})
+            return res.status(404).json({message:'Cannot use old password'})
         }
         if(user.activate === 0){
             user.activate = 1;

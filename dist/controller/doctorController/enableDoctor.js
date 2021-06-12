@@ -23,11 +23,11 @@ class EnableDoctorController {
                 where: { id },
             });
             if (!user) {
-                return res.status(404).json({ message: "Este usuário não existe" });
+                return res.status(404).json({ message: "This user does not exist" });
             }
-            user.password = ' ';
+            user.activate = 0;
             yield userRepository.save(user);
-            return res.status(200).json({ message: "Conta desativada com sucesso!" });
+            return res.status(200).json({ message: "Account successfully disabled!" });
         });
     }
 }
