@@ -26,11 +26,8 @@ class LoginDoctorController {
             if (!doctor) {
                 return res.status(404).json({ message: "Este email  não existe" });
             }
-            if (!doctor.password) {
-                return res.status(404).json({ message: "Este Usuário esta inativo" });
-            }
             if (doctor.activate === 0) {
-                return res.status(404).json({ message: "Confirme seu cadastro" });
+                return res.status(404).json({ message: "Este Usuário esta inativo ou Cadastro não confirmado" });
             }
             const isValidatePassword = yield bcryptjs_1.default.compare(password, doctor.password);
             if (!isValidatePassword) {
