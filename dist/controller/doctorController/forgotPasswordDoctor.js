@@ -15,8 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const doctorRepositorie_1 = __importDefault(require("../../repositorie/doctorRepositorie"));
 const nodemailer_1 = __importDefault(require("nodemailer"));
-const crypto_1 = __importDefault(require("crypto"));
-const bcryptjs_1 = require("bcryptjs");
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const Doctor_1 = __importDefault(require("../../models/Doctor"));
 class ForgotDoctorPassword {
     forgotDoctorPassword(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -25,7 +25,7 @@ class ForgotDoctorPassword {
             try {
                 const user = yield doctorRepository.findByEmail(email);
                 if (!user) {
-                    return res.status(404).json({ message: "user not found" });
+                    return res.status(404).json({ message: "Email not registered in the system" });
                 }
                 var transport = nodemailer_1.default.createTransport({
                     host: 'smtp.mailtrap.io',
@@ -35,28 +35,47 @@ class ForgotDoctorPassword {
                         pass: "f2fa7550b78068"
                     }
                 });
-                const newPassword = crypto_1.default.randomBytes(4).toString('hex');
+                const id = user.id;
+                const url = `https://smart-gait.herokuapp.com/confirmPassword/${id}`;
                 transport.sendMail({
                     from: 'Testando <92fe25ba83-325b9d@inbox.mailtrap.io>',
                     to: email,
                     subject: 'Recuperacao de senha',
-                    text: `Olá sua senha é: ${newPassword}`
+                    html: `Para redefinir sua senha click no link => <a href="${url}">${url}</a>`
                 }).then(() => {
-                    bcryptjs_1.hash(newPassword, 8).then(password => {
-                        doctorRepository.update(user.id, {
-                            password
-                        }).then(() => {
-                            return res.status(200).json({ message: "email sended" });
-                        }).catch(() => {
-                            return res.status(404).json({ message: "user not found" });
-                        });
-                    });
+                    return res.status(200).json({ message: 'Enviamos um e-mail com o link de redefinição de senha para o e-mail cadastrado,acesse seu e-mail para alterar a senha' });
                 }).catch(() => {
-                    return res.status(404).json({ message: "fail to email" });
+                    return res.status(400).json({ message: "Falha ao enviar e-mail" });
                 });
             }
             catch (error) {
                 return res.status(404).json({ message: "erro" });
+            }
+        });
+    }
+    passwordUpdate(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { password } = req.body;
+                const user = yield typeorm_1.getRepository(Doctor_1.default).findOne(req.params.id);
+                if (!user) {
+                    return res.status(404).json({ message: 'Este usuário não existe no sistema' });
+                }
+                const isValidatePassword = yield bcryptjs_1.default.compare(password, user.password);
+                if (isValidatePassword) {
+                    return res.status(404).json({ message: 'Não poderá usar a senha antiga' });
+                }
+                if (user.activate === 0) {
+                    user.activate = 1;
+                }
+                const salt = yield bcryptjs_1.default.genSalt(10);
+                const passwordHashed = yield bcryptjs_1.default.hash(password, salt);
+                user.password = passwordHashed;
+                const results = yield typeorm_1.getRepository(Doctor_1.default).save(user);
+                return res.json(results);
+            }
+            catch (error) {
+                return res.json(error);
             }
         });
     }
