@@ -50,7 +50,8 @@ class SendEmailController{
         const {email} = req.body;
         console.log(email)
 
-        const emailExists = await doctorRepository.findByEmail(email);
+        try {
+            const emailExists = await doctorRepository.findByEmail(email);
         
         if (emailExists) {     
             return res.json(emailExists);
@@ -58,23 +59,32 @@ class SendEmailController{
         if (!emailExists) {
             return res.status(404).json({ message: "This user not register in the system" });
         }
+        } catch (error) {
+            return res.status(404).json({ error });
+        }
 
         
         
     }
     public async updateEmail(req:Request, res:Response){
     
-    const emailExists = await getRepository(Doctor).findOne(req.body.params); 
-    if (emailExists) {
-      getRepository(Doctor).merge(emailExists, req.body);
-      const results = await getRepository(Doctor).save(emailExists);
-      return res.json(results);
-
+        const emailExists = await getRepository(Doctor).findOne(req.body.params); 
+   
+        try {
+            if (emailExists) {
+          getRepository(Doctor).merge(emailExists, req.body);
+          const results = await getRepository(Doctor).save(emailExists);
+          return res.json(results);
+    
+        }
+        if (!emailExists) {
+            return res.status(404).json({ message: "This user not register in the system" });
+        }
+        } catch (error) {
+            return res.status(404).json({ error });
+        }
+        
     }
-    if (!emailExists) {
-        return res.status(404).json({ message: "This user not register in the system" });
-    }
-}
     
 }
 export default new SendEmailController();

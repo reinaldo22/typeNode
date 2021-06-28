@@ -55,25 +55,35 @@ class SendEmailController {
             const doctorRepository = typeorm_2.getCustomRepository(doctorRepositorie_1.default);
             const { email } = req.body;
             console.log(email);
-            const emailExists = yield doctorRepository.findByEmail(email);
-            if (emailExists) {
-                return res.json(emailExists);
+            try {
+                const emailExists = yield doctorRepository.findByEmail(email);
+                if (emailExists) {
+                    return res.json(emailExists);
+                }
+                if (!emailExists) {
+                    return res.status(404).json({ message: "This user not register in the system" });
+                }
             }
-            if (!emailExists) {
-                return res.status(404).json({ message: "This user not register in the system" });
+            catch (error) {
+                return res.status(404).json({ error });
             }
         });
     }
     updateEmail(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const emailExists = yield typeorm_1.getRepository(Doctor_1.default).findOne(req.body.params);
-            if (emailExists) {
-                typeorm_1.getRepository(Doctor_1.default).merge(emailExists, req.body);
-                const results = yield typeorm_1.getRepository(Doctor_1.default).save(emailExists);
-                return res.json(results);
+            try {
+                if (emailExists) {
+                    typeorm_1.getRepository(Doctor_1.default).merge(emailExists, req.body);
+                    const results = yield typeorm_1.getRepository(Doctor_1.default).save(emailExists);
+                    return res.json(results);
+                }
+                if (!emailExists) {
+                    return res.status(404).json({ message: "This user not register in the system" });
+                }
             }
-            if (!emailExists) {
-                return res.status(404).json({ message: "This user not register in the system" });
+            catch (error) {
+                return res.status(404).json({ error });
             }
         });
     }
