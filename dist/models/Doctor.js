@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
+const class_validator_1 = require("class-validator");
 let Doctor = class Doctor {
 };
 __decorate([
@@ -21,11 +22,15 @@ __decorate([
     __metadata("design:type", String)
 ], Doctor.prototype, "token", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column({ type: 'text',
+        unique: true,
+        nullable: true }),
+    class_validator_1.IsEmail(),
     __metadata("design:type", String)
 ], Doctor.prototype, "email", void 0);
 __decorate([
     typeorm_1.Column(),
+    class_validator_1.MaxLength(50),
     __metadata("design:type", String)
 ], Doctor.prototype, "name", void 0);
 __decorate([
@@ -49,7 +54,13 @@ __decorate([
     __metadata("design:type", String)
 ], Doctor.prototype, "phone", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_1.Column('text', { nullable: true }),
+    __metadata("design:type", String)
+], Doctor.prototype, "phone2", void 0);
+__decorate([
+    typeorm_1.Column({
+        nullable: false
+    }),
     __metadata("design:type", String)
 ], Doctor.prototype, "specialization", void 0);
 __decorate([
@@ -68,3 +79,9 @@ Doctor = __decorate([
     typeorm_1.Entity('doctors')
 ], Doctor);
 exports.default = Doctor;
+function unique(unique, arg1, nullable, arg3) {
+    throw new Error("Function not implemented.");
+}
+function nullable(unique, arg1, nullable, arg3) {
+    throw new Error("Function not implemented.");
+}

@@ -34,7 +34,38 @@ class DoctorRepository extends Repository<Doctor>{
         });
         return doctor;
     }
-    
+    public async findByCpf(cpf:string):Promise<Doctor | undefined>{
+        const doctor = await this.findOne({
+            where:{
+                cpf,
+            },
+        });
+        return doctor;
+    }
+    public async findByPhone(phone:string):Promise<Doctor | undefined>{
+        const doctor = await this.findOne({
+            where:{
+                phone,
+            },
+        });
+        return doctor;
+    }
+    public async findByPhone2(phone2:string):Promise<Doctor | undefined>{
+        const doctor = await this.findOne({
+            where:{
+                phone2,
+            },
+        });
+        return doctor;
+    }
+    public async findByCrm(crm:string):Promise<Doctor | undefined>{
+        const doctor = await this.findOne({
+            where:{
+                crm,
+            },
+        });
+        return doctor;
+    }
 }
 
 export default DoctorRepository;

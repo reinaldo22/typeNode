@@ -1,5 +1,5 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
-
+import { IsEmail, isEmail, Max, MaxLength, Min, MinLength } from 'class-validator';
 export type UserRoleType = "admin" | "doctor" | "user";
 
 @Entity('doctors')
@@ -12,10 +12,14 @@ class Doctor {
     @Column()
     token: string;
 
-    @Column()
+    @Column({type: 'text',
+    unique: true,
+    nullable: true})
+    @IsEmail()
     email: string;
 
     @Column()
+    @MaxLength(50)
     name: string;
 
     @Column()
@@ -32,8 +36,13 @@ class Doctor {
 
     @Column()
     phone: string;
+    
+    @Column('text', {nullable: true})
+    phone2: string;
 
-    @Column()
+    @Column({
+    nullable:false
+    })
     specialization: string;
 
 
@@ -51,3 +60,11 @@ class Doctor {
 }
 
 export default Doctor;
+
+function unique(unique: any, arg1: boolean, nullable: any, arg3: boolean) {
+    throw new Error("Function not implemented.");
+}
+function nullable(unique: (unique: any, arg1: boolean, nullable: any, arg3: boolean) => void, arg1: boolean, nullable: any, arg3: boolean) {
+    throw new Error("Function not implemented.");
+}
+

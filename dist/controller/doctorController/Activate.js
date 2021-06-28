@@ -17,18 +17,23 @@ const Doctor_1 = __importDefault(require("../../models/Doctor"));
 class Activate {
     verifyActivate(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { token } = req.params;
-            const testeRepository = typeorm_1.getRepository(Doctor_1.default);
-            console.log("roken=>", token);
-            const doctor = yield testeRepository.findOne({
-                where: { token },
-            });
-            if (!doctor) {
-                return res.status(404).json({ message: "Este usuário não existe" });
+            const { id } = req.params;
+            try {
+                const testeRepository = typeorm_1.getRepository(Doctor_1.default);
+                const doctor = yield testeRepository.findOne({ where: { id } });
+                if (!doctor) {
+                    return res.status(404).json({ message: "User not found" });
+                }
+                if (doctor.activate === 1) {
+                    return res.status(404).json({ message: "Validated token" });
+                }
+                doctor.activate = 1;
+                yield testeRepository.save(doctor);
+                return res.status(200).json({ message: "Registration successfully validate!" });
             }
-            doctor.activate = 1;
-            yield testeRepository.save(doctor);
-            return res.status(200).json({ message: "Cadastro validado!" });
+            catch (error) {
+                return res.status(400).json({ message: "Something went wrong" });
+            }
         });
     }
 }

@@ -25,6 +25,7 @@
     "@types/nodemailer": "^6.4.0",
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
+    "class-validator": "^0.13.1",
     "cors": "^2.8.5",
     "dotenv": "^9.0.2",
     "express": "^4.17.1",

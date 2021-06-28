@@ -51,6 +51,46 @@ let DoctorRepository = class DoctorRepository extends typeorm_1.Repository {
             return doctor;
         });
     }
+    findByCpf(cpf) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const doctor = yield this.findOne({
+                where: {
+                    cpf,
+                },
+            });
+            return doctor;
+        });
+    }
+    findByPhone(phone) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const doctor = yield this.findOne({
+                where: {
+                    phone,
+                },
+            });
+            return doctor;
+        });
+    }
+    findByPhone2(phone2) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const doctor = yield this.findOne({
+                where: {
+                    phone2,
+                },
+            });
+            return doctor;
+        });
+    }
+    findByCrm(crm) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const doctor = yield this.findOne({
+                where: {
+                    crm,
+                },
+            });
+            return doctor;
+        });
+    }
 };
 DoctorRepository = __decorate([
     typeorm_1.EntityRepository(Doctor_1.default)

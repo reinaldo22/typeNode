@@ -36,12 +36,12 @@ class ForgotDoctorPassword {
                     }
                 });
                 const id = user.id;
-                const url = `https://smart-gait.herokuapp.com/confirmPassword/${id}`;
+                const url = `http://localhost:3000/confirmPassword/${id}`;
                 transport.sendMail({
                     from: 'Testando <92fe25ba83-325b9d@inbox.mailtrap.io>',
                     to: email,
-                    subject: 'Recuperacao de senha',
-                    html: `Para redefinir sua senha click no link => <a href="${url}">${url}</a>`
+                    subject: 'Password recovery',
+                    html: `To reset your password click on the link => <a href="${url}">${url}</a>`
                 }).then(() => {
                     return res.status(200).json({ message: 'We send an email with the password reset link to the registered email, access your email to change the password' });
                 }).catch(() => {
@@ -57,9 +57,15 @@ class ForgotDoctorPassword {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { password } = req.body;
+                if (password.length < 6) {
+                    return res.status(400).json({ message: "Minimum password of 6 characters" });
+                }
+                if (password.length > 13) {
+                    return res.status(400).json({ message: "Maximum password of 13 characters" });
+                }
                 const user = yield typeorm_1.getRepository(Doctor_1.default).findOne(req.params.id);
                 if (!user) {
-                    return res.status(404).json({ message: 'This user does not exist in the system' });
+                    return res.status(404).json({ message: 'This user does not exist in the system.' });
                 }
                 const isValidatePassword = yield bcryptjs_1.default.compare(password, user.password);
                 if (isValidatePassword) {

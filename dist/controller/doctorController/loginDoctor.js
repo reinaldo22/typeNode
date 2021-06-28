@@ -24,14 +24,17 @@ class LoginDoctorController {
             const doctor = yield repo.findOne({ email });
             console.log(doctor);
             if (!doctor) {
-                return res.status(404).json({ message: "Este email  não existe" });
+                return res.status(404).json({ message: "Email not registered in the system" });
+            }
+            if (!doctor.password) {
+                return res.status(404).json({ message: "Inactive or invalid password" });
             }
             if (doctor.activate === 0) {
-                return res.status(404).json({ message: "Este Usuário esta inativo ou Cadastro não confirmado" });
+                return res.status(404).json({ message: "Inactive User or Invalid Password" });
             }
             const isValidatePassword = yield bcryptjs_1.default.compare(password, doctor.password);
             if (!isValidatePassword) {
-                return res.status(401).json({ message: "E-mail ou senha incorretos" });
+                return res.status(401).json({ message: "Incorrect email or password" });
             }
             const token = jsonwebtoken_1.default.sign({ id: doctor.id }, 'secret', { expiresIn: '1d' });
             return res.json({

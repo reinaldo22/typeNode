@@ -22,18 +22,30 @@ class ProfileController {
             const user_id = request.userId;
             const user = yield showProfile.findById(user_id);
             if (!user) {
-                response.status(404).json({ message: 'Este usuário não existe' });
+                response.status(404).json({ message: 'this user does not exist' });
             }
             return response.json(user);
         });
     }
     updateProfile(request, response) {
         return __awaiter(this, void 0, void 0, function* () {
-            const userDoc = yield typeorm_1.getRepository(Doctor_1.default).findOne(request.params.id);
-            if (userDoc) {
-                typeorm_1.getRepository(Doctor_1.default).merge(userDoc, request.body);
-                const results = yield typeorm_1.getRepository(Doctor_1.default).save(userDoc);
-                return response.json(results);
+            const { specialization, phone, phone2 } = request.body;
+            try {
+                if (phone.length < 6) {
+                    return response.status(404).json({ message: "Invalid phone minimum 6 numbers" });
+                }
+                const userDoc = yield typeorm_1.getRepository(Doctor_1.default).findOne(request.params.id);
+                if (userDoc) {
+                    const userRepository = typeorm_1.getRepository(Doctor_1.default);
+                    userDoc.phone = phone;
+                    userDoc.phone2 = phone2;
+                    userDoc.specialization = specialization;
+                    userRepository.save(userDoc);
+                    return response.status(200).json({ message: "User not found" });
+                }
+            }
+            catch (error) {
+                return response.status(404).json({ error });
             }
             return response.status(404).json({ message: "User not found" });
         });
