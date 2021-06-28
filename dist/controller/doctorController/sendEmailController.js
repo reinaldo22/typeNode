@@ -36,7 +36,7 @@ class SendEmailController {
                         pass: "f2fa7550b78068"
                     }
                 });
-                const url = `http://localhost:3000/validationEmail/${id}`;
+                const url = `https://smart-gait.herokuapp.com/validationEmail/${id}`;
                 transport.sendMail({
                     from: 'Testando <92fe25ba83-325b9d@inbox.mailtrap.io>',
                     to: email,
