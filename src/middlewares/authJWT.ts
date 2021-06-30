@@ -14,7 +14,7 @@ export const verifyToken = async (req: Request, res: Response, next: NextFunctio
 
     const token = req.headers.authorization;
 
-    if (!token) return res.status(404).json({ message: 'Não possui token' });
+    if (!token) return res.status(404).json({ message: 'Does not have toke' });
 
 
     try {

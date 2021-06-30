@@ -24,12 +24,9 @@ class Activate {
                 if (!doctor) {
                     return res.status(404).json({ message: "User not found" });
                 }
-                if (doctor.activate === 1) {
-                    return res.status(404).json({ message: "Validated token" });
-                }
                 doctor.activate = 1;
                 yield testeRepository.save(doctor);
-                return res.status(200).json({ message: "Registration successfully validate!" });
+                return res.status(200).json({ message: "Email successfully validated!" });
             }
             catch (error) {
                 return res.status(400).json({ message: "Something went wrong" });

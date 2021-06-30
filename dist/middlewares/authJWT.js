@@ -19,7 +19,7 @@ const doctorRepositorie_1 = __importDefault(require("../repositorie/doctorReposi
 const verifyToken = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const token = req.headers.authorization;
     if (!token)
-        return res.status(404).json({ message: 'Não possui token' });
+        return res.status(404).json({ message: 'Does not have toke' });
     try {
         const data = jsonwebtoken_1.default.decode(token);
         const { id } = data;

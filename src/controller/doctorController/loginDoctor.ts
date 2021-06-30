@@ -20,7 +20,7 @@ class LoginDoctorController {
             return res.status(404).json({ message: "Inactive or invalid password" });
         }
         if (doctor.activate === 0) {
-            return res.status(404).json({ message: "Inactive User or Invalid Password" });
+            return res.status(404).json({ message: "Your profile has been inactivated, please reset your password to reactivate your profile" });
         }
     
         const isValidatePassword = await bcrypt.compare(password, doctor.password as string);

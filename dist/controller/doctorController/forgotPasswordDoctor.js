@@ -25,7 +25,7 @@ class ForgotDoctorPassword {
             try {
                 const user = yield doctorRepository.findByEmail(email);
                 if (!user) {
-                    return res.status(404).json({ message: "Email not registered in the system" });
+                    return res.status(404).json({ message: "Invalid Domain" });
                 }
                 var transport = nodemailer_1.default.createTransport({
                     host: 'smtp.mailtrap.io',
@@ -36,7 +36,7 @@ class ForgotDoctorPassword {
                     }
                 });
                 const id = user.id;
-                const url = `https://smart-gait.herokuapp.com/confirmPassword/${id}`;
+                const url = `http://smart-gait.herokuapp.com/confirmPassword/${id}`;
                 transport.sendMail({
                     from: 'Testando <92fe25ba83-325b9d@inbox.mailtrap.io>',
                     to: email,

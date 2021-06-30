@@ -19,12 +19,17 @@ class JustificationController {
         return __awaiter(this, void 0, void 0, function* () {
             const justificationRepositorie = typeorm_1.getRepository(Justification_1.default);
             const { name, description } = req.body;
+            console.log(name);
+            const n = Object.keys(name).length === 0;
+            if (n === true && description === '') {
+                return res.status(404).json({ message: 'Please select at least one option' });
+            }
             const justification = justificationRepositorie.create({
                 name,
                 description
             });
             yield justificationRepositorie.save(justification);
-            return res.status(201).json({ message: 'Justificativa enviada' });
+            return res.status(201).json({ message: 'Justification sent' });
         });
     }
 }

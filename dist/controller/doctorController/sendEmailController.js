@@ -36,14 +36,14 @@ class SendEmailController {
                         pass: "f2fa7550b78068"
                     }
                 });
-                const url = `https://smart-gait.herokuapp.com/validationEmail/${id}`;
+                const url = `http://smart-gait.herokuapp.com/validationEmail/${id}`;
                 transport.sendMail({
                     from: 'Testando <92fe25ba83-325b9d@inbox.mailtrap.io>',
                     to: email,
-                    subject: 'Cadastro Realizado com sucesso',
+                    subject: 'Registration completed successfully',
                     html: `To confirm your registration click on the link: <a href="${url}">${url}</a>`
                 });
-                res.status(200).json({ message: 'Link sent, check your email' });
+                res.status(200).json({ message: 'Confirmation link sent successfully' });
             }
             catch (error) {
                 res.status(400).json({ message: 'sorry something went wrong' });
