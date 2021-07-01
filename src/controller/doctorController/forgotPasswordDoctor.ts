@@ -31,7 +31,7 @@ class ForgotDoctorPassword {
             });
 
             const id = user.id
-            
+
             const url = `http://smart-gait.herokuapp.com/confirmPassword/${id}`
             transport.sendMail({
                 from: 'Testando <92fe25ba83-325b9d@inbox.mailtrap.io>',

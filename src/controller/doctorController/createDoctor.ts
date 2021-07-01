@@ -26,7 +26,6 @@ class CreateDoctorController {
         
         
         try {
-
            
             
             const emailExists = await doctorRepository.findByEmail(email);

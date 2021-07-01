@@ -27,6 +27,7 @@ class AllUsers {
         return __awaiter(this, void 0, void 0, function* () {
             const { name, cpf, crm, email, password, phone } = req.body;
             const doctorRepository = typeorm_1.getCustomRepository(doctorRepositorie_1.default);
+            console.log(phone);
             const emailExists = yield doctorRepository.findByEmail(email);
             if (emailExists) {
                 return res.status(409).json({ message: "Email already registered in the system" });
@@ -76,16 +77,10 @@ class AllUsers {
                 if (regexPhone.test(phone)) {
                     return res.status(404).json({ message: "Invalid phone" });
                 }
-                if (regexCpf.test(cpf)) {
-                    return res.status(201).json({ message: "Valid CPF" });
+                if (!regexCpf.test(cpf)) {
+                    return res.status(404).json({ message: "Invalid CPF" });
                 }
-                else {
-                    res.status(404).json({ message: "Invalid CPF" });
-                }
-                if (regexPassword.test(password)) {
-                    return res.status(200).json({ message: "Password ok" });
-                }
-                else {
+                if (!regexPassword.test(password)) {
                     res.status(404).json({ message: "Invalid Password" });
                 }
                 if (password.length < 6) {

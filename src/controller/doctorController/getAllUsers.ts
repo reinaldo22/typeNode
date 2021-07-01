@@ -19,7 +19,7 @@ class AllUsers{
       
         const  {name, cpf, crm, email, password, phone} = req.body;
         const doctorRepository =  getCustomRepository(DoctorRepository);
-        
+        console.log(phone)
         const emailExists = await doctorRepository.findByEmail(email);
         if (emailExists) {
             return res.status(409).json({ message: "Email already registered in the system" });
@@ -72,19 +72,16 @@ class AllUsers{
         var regexCpf = new RegExp("([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})")
         
         if(regexPhone.test(phone) ){
+            
            return res.status(404).json({ message: "Invalid phone" }); 
         }
-        if(regexCpf.test(cpf)){
-            return res.status(201).json({ message: "Valid CPF" });
-        }else{
-             res.status(404).json({ message: "Invalid CPF" });
+        if(!regexCpf.test(cpf)){
+            return res.status(404).json({ message: "Invalid CPF" });   
         }
-        if(regexPassword.test(password)){
-            return res.status(200).json({ message: "Password ok" });
-        }else{
-             res.status(404).json({ message: "Invalid Password" });
+        if(!regexPassword.test(password)){
+            res.status(404).json({ message: "Invalid Password" });
+             
         }
-
         
         if(password.length < 6){
             return res.status(400).json({ message: "Minimum password of 6 characters" });
