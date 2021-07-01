@@ -17,7 +17,7 @@ class AllUsers{
     
     public async getUser(req:Request, res:Response){
       
-        const  {name, cpf, crm, email, password, phone} = req.body;
+        const  {name, cpf, crm, email, password, phone, phone2} = req.body;
         const doctorRepository =  getCustomRepository(DoctorRepository);
         console.log(phone)
         const emailExists = await doctorRepository.findByEmail(email);
@@ -38,6 +38,10 @@ class AllUsers{
         }
         const phoneExists = await doctorRepository.findByPhone(phone);
         if (phoneExists) {
+            return res.status(409).json({ message: "Phone already registered in the system" });
+        }
+        const phoneExists2 = await doctorRepository.findByPhone(phone2);
+        if (phoneExists2) {
             return res.status(409).json({ message: "Phone already registered in the system" });
         }
         try {
@@ -75,6 +79,7 @@ class AllUsers{
             
            return res.status(404).json({ message: "Invalid phone" }); 
         }
+        
         if(!regexCpf.test(cpf)){
             return res.status(404).json({ message: "Invalid CPF" });   
         }

@@ -25,7 +25,7 @@ class AllUsers {
     }
     getUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { name, cpf, crm, email, password, phone } = req.body;
+            const { name, cpf, crm, email, password, phone, phone2 } = req.body;
             const doctorRepository = typeorm_1.getCustomRepository(doctorRepositorie_1.default);
             console.log(phone);
             const emailExists = yield doctorRepository.findByEmail(email);
@@ -46,6 +46,10 @@ class AllUsers {
             }
             const phoneExists = yield doctorRepository.findByPhone(phone);
             if (phoneExists) {
+                return res.status(409).json({ message: "Phone already registered in the system" });
+            }
+            const phoneExists2 = yield doctorRepository.findByPhone(phone2);
+            if (phoneExists2) {
                 return res.status(409).json({ message: "Phone already registered in the system" });
             }
             try {

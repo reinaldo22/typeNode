@@ -56,7 +56,11 @@ class ForgotDoctorPassword {
         try {
         const { password } = req.body;
 
-        
+        var regexPassword = new RegExp("^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{6,13}$");
+        if(!regexPassword.test(password)){
+            res.status(404).json({ message: "Invalid Password" });
+             
+        }
         if(password.length < 6){
             return res.status(400).json({ message: "Minimum password of 6 characters" });
         }
@@ -87,7 +91,7 @@ class ForgotDoctorPassword {
         const results = await getRepository(Doctor).save(user);
         return res.json(results);
         } catch (error) {
-            return res.json(error);
+            
         }
             
         

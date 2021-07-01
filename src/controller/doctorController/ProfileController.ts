@@ -1,4 +1,3 @@
-import { MaxLength } from 'class-validator';
 import { getCustomRepository, getRepository } from 'typeorm';
 import { Request, Response } from 'express';
 import DoctorRepository from '../../repositorie/doctorRepositorie';
