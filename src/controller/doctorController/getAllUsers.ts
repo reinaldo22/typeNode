@@ -19,7 +19,7 @@ class AllUsers{
       
         const  {name, cpf, crm, email, password, phone, phone2} = req.body;
         const doctorRepository =  getCustomRepository(DoctorRepository);
-        console.log(phone)
+        console.log(email)
         const emailExists = await doctorRepository.findByEmail(email);
         if (emailExists) {
             return res.status(409).json({ message: "Email already registered in the system" });
@@ -74,7 +74,7 @@ class AllUsers{
         var regexPhone =  new RegExp("^[(][1-9]{2}[)](?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$");
         var regexPassword = new RegExp("^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{6,13}$");
         var regexCpf = new RegExp("([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})")
-        
+        var regexEmail = new RegExp("^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+.com$")
         if(regexPhone.test(phone) ){
             
            return res.status(404).json({ message: "Invalid phone" }); 
@@ -94,10 +94,13 @@ class AllUsers{
         if(password.length > 13){
             return res.status(400).json({ message: "Maximum password of 13 characters" });
         }
-        if(email === ''){
-            return res.status(400).json({ message: "Email cannot be empty" });
-        }
         
+        
+
+        if(!(regexEmail).test(email)){
+            return res.status(404).json({message:'Invalid email'});
+
+        }
         
     return res.status(201).json({message:'ok'});
         } catch (error) {

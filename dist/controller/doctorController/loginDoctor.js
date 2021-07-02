@@ -15,16 +15,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
-const Doctor_1 = __importDefault(require("../../models/Doctor"));
+const doctorRepositorie_1 = __importDefault(require("../../repositorie/doctorRepositorie"));
 class LoginDoctorController {
     signInDoctor(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const repo = typeorm_1.getRepository(Doctor_1.default);
+            const repo = typeorm_1.getCustomRepository(doctorRepositorie_1.default);
+            var regexEmail = new RegExp("^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+.com$");
             const { email, password } = req.body;
-            const doctor = yield repo.findOne({ email });
-            console.log(doctor);
+            const doctor = yield repo.findByEmail(email);
             if (!doctor) {
                 return res.status(404).json({ message: "Email not registered in the system" });
+            }
+            if (!(regexEmail).test(email)) {
+                return res.status(404).json({ message: 'Invalid email' });
             }
             if (!doctor.password) {
                 return res.status(404).json({ message: "Inactive or invalid password" });
