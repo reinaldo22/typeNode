@@ -25,7 +25,7 @@ class Activate {
                     return res.status(404).json({ message: "User not found" });
                 }
                 doctor.activate = 1;
-                yield testeRepository.save(doctor);
+                yield testeRepository.update(id, doctor);
                 return res.status(200).json({ message: "Email successfully validated!" });
             }
             catch (error) {

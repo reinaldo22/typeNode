@@ -20,7 +20,7 @@ class Activate {
         
         doctor.activate = 1;
 
-        await testeRepository.save(doctor);
+        await testeRepository.update(id, doctor);
 
         return res.status(200).json({ message: "Email successfully validated!" });
         } catch (error) {
