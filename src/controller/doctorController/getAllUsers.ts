@@ -75,7 +75,8 @@ class AllUsers{
         var regexPassword = new RegExp("^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{6,13}$");
         var regexCpf = new RegExp("([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})")
         var regexEmail = new RegExp("^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+.com$")
-        if(regexPhone.test(phone) ){
+       
+        if(!regexPhone.test(phone) ){
             
            return res.status(404).json({ message: "Invalid phone" }); 
         }
