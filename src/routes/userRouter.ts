@@ -11,7 +11,7 @@ import SendEmail from '../controller/doctorController/sendEmailController';
 
 const routes = Router();
 routes.post('/doctorSignUp', CreateDoctorController.createDoctor);
-routes.post('/activate/:id',Activate.verifyActivate);
+routes.get('/activate/:id',Activate.verifyActivate);
 routes.get('/allUser',AllUsers.getAll);
 routes.post('/signInDoctor', LoginDoctorController.signInDoctor);
 routes.get('/showProfile', [verifyToken, isDoctor], ProfileController.show);

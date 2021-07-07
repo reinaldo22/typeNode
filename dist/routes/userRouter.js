@@ -15,7 +15,7 @@ const enableDoctor_1 = __importDefault(require("../controller/doctorController/e
 const sendEmailController_1 = __importDefault(require("../controller/doctorController/sendEmailController"));
 const routes = express_1.Router();
 routes.post('/doctorSignUp', createDoctor_1.default.createDoctor);
-routes.post('/activate/:id', Activate_1.default.verifyActivate);
+routes.get('/activate/:id', Activate_1.default.verifyActivate);
 routes.get('/allUser', getAllUsers_1.default.getAll);
 routes.post('/signInDoctor', loginDoctor_1.default.signInDoctor);
 routes.get('/showProfile', [authJWT_1.verifyToken, authJWT_1.isDoctor], ProfileController_1.default.show);

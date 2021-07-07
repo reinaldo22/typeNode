@@ -20,7 +20,7 @@ class Activate {
             const { id } = req.params;
             try {
                 const testeRepository = typeorm_1.getRepository(Doctor_1.default);
-                const doctor = yield testeRepository.findOne({ where: { id } });
+                const doctor = yield testeRepository.findOne(req.params.id);
                 if (!doctor) {
                     return res.status(404).json({ message: "User not found" });
                 }
