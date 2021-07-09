@@ -17,7 +17,7 @@ class AllUsers{
     
     public async getUser(req:Request, res:Response){
       
-        const  {name, cpf, crm, email, password, phone} = req.body;
+        const  {name, cpf, crm, email, password, phone, phone2} = req.body;
         const doctorRepository =  getCustomRepository(DoctorRepository);
         console.log(email)
         const emailExists = await doctorRepository.findByEmail(email);
@@ -68,13 +68,20 @@ class AllUsers{
                } 
             }   
         }
-        var regexPhone =  new RegExp("^[(][1-9]{2}[)](?:[2-8]|9[1-9])[0-9]{3}\-[0-9]{4}$");
+        var regexPhone =  new RegExp("^[0-9]{11}");
+        var regexPhone2 =  new RegExp("^[0-9]{11}");
         var regexPassword = new RegExp("^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{6,13}$");
         var regexCpf = new RegExp("([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})")
         var regexEmail = new RegExp("^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+.com$")
        
-        if(phone.length < 9){
-            return res.status(404).json({ message: "Invalid Phone" }); 
+        if(!regexPhone2.test(phone2)&&(phone2.length != "") ){
+            
+            return res.status(404).json({ message: "Invalid phone2" }); 
+         }
+         
+         if(!regexPhone.test(phone) ){
+            console.log("back-end invalid phone")
+           return res.status(404).json({ message: "Invalid phone" }); 
         }
 
         
