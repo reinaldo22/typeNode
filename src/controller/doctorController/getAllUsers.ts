@@ -60,7 +60,7 @@ class AllUsers{
                     pass: "f2fa7550b78068"
                 }
         });
-        const url = `http://localhost:3000/validationEmail/${id}`;
+        const url = `http://smart-gait.herokuapp.com/validationEmail/${id}`;
         transport.sendMail({
             from: 'Testando <92fe25ba83-325b9d@inbox.mailtrap.io>',
             to: email,
