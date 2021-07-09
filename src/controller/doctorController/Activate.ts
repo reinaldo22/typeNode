@@ -23,7 +23,7 @@ class Activate {
                 console.log(err?.message)
                 if(err?.message === 'jwt expired' && doctor.activate === 0){
                     
-                    return res.status(400).json({ message: "Token expired" });
+                    return res.status(400).json({ message: "Link expired, please click to resend email" });
 
                 }else{
 

@@ -29,7 +29,7 @@ class Activate {
                 jsonwebtoken_1.default.verify(doctor.token, 'secret', function (err, decode) {
                     console.log(err === null || err === void 0 ? void 0 : err.message);
                     if ((err === null || err === void 0 ? void 0 : err.message) === 'jwt expired' && doctor.activate === 0) {
-                        return res.status(400).json({ message: "Token expired" });
+                        return res.status(400).json({ message: "Link expired, please click to resend email" });
                     }
                     else {
                         doctor.activate = 1;
