@@ -14,23 +14,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
 const Doctor_1 = __importDefault(require("../../models/Doctor"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 class Activate {
     verifyActivate(req, res, next) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
+            const testeRepository = typeorm_1.getRepository(Doctor_1.default);
+            const doctor = yield testeRepository.findOne(req.params.id);
+            console.log(doctor);
+            if (!doctor) {
+                return res.status(404).json({ message: "User not found" });
+            }
             try {
-                const testeRepository = typeorm_1.getRepository(Doctor_1.default);
-                const doctor = yield testeRepository.findOne(req.params.id);
-                if (!doctor) {
-                    return res.status(404).json({ message: "User not found" });
-                }
-                doctor.activate = 1;
-                yield testeRepository.update(id, doctor);
+                jsonwebtoken_1.default.verify(doctor.token, 'secret', function (err, decode) {
+                    console.log(err === null || err === void 0 ? void 0 : err.message);
+                    if ((err === null || err === void 0 ? void 0 : err.message) === 'jwt expired' && doctor.activate === 0) {
+                        return res.status(400).json({ message: "Token expired" });
+                    }
+                    else {
+                        doctor.activate = 1;
+                        testeRepository.update(id, doctor);
+                    }
+                });
                 return res.status(200).json({ message: "Email successfully validated!" });
             }
             catch (error) {
-                return res.status(400).json({ message: "Something went wrong" });
+                return res.status(400).json({ message: error.message });
             }
+            // return res.status(200).json({ message: "Email successfully validated!" });
         });
     }
 }

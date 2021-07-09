@@ -16,6 +16,9 @@ const typeorm_1 = require("typeorm");
 const Doctor_1 = __importDefault(require("../../models/Doctor"));
 const doctorRepositorie_1 = __importDefault(require("../../repositorie/doctorRepositorie"));
 var axios = require('axios');
+const nodemailer_1 = __importDefault(require("nodemailer"));
+const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 class AllUsers {
     getAll(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -23,11 +26,61 @@ class AllUsers {
             return res.json(allDoctors);
         });
     }
+    getUserId(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const doc = yield typeorm_1.getRepository(Doctor_1.default).findOne(req.params);
+            return res.json(doc);
+        });
+    }
+    updateToken(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const doc = yield typeorm_1.getRepository(Doctor_1.default).findOne(req.params);
+            return res.json(doc);
+        });
+    }
+    sendToken(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const doctorRepository = typeorm_1.getCustomRepository(doctorRepositorie_1.default);
+            const { email } = req.body;
+            try {
+                const user = yield doctorRepository.findByEmail(email);
+                if (!user) {
+                    return res.status(404).json({ message: "Email not registered in the system" });
+                }
+                const id = user.id;
+                const salt = bcryptjs_1.default.genSalt(1);
+                const newToken = jsonwebtoken_1.default.sign({ id: salt }, 'secret', { expiresIn: 300 }); //5minutos
+                user.token = newToken;
+                doctorRepository.update(id, user);
+                console.log("Reenvio de token>>>>>>>>>>>>", user);
+                var transport = nodemailer_1.default.createTransport({
+                    host: 'smtp.mailtrap.io',
+                    port: 2525,
+                    auth: {
+                        user: "0be89881ec1c58",
+                        pass: "f2fa7550b78068"
+                    }
+                });
+                const url = `http://localhost:3000/validationEmail/${id}`;
+                transport.sendMail({
+                    from: 'Testando <92fe25ba83-325b9d@inbox.mailtrap.io>',
+                    to: email,
+                    subject: 'Registration completed successfully',
+                    html: `To confirm your registration click on the link: <a href="${url}">${url}</a>`
+                });
+                res.status(200).json({ message: 'Confirmation link sent successfully' });
+            }
+            catch (error) {
+                res.status(400).json({ message: 'sorry something went wrong' });
+            }
+        });
+    }
     getUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { name, cpf, crm, email, password, phone, phone2 } = req.body;
             const doctorRepository = typeorm_1.getCustomRepository(doctorRepositorie_1.default);
-            console.log(email);
+            console.log(phone);
+            console.log(phone2);
             const emailExists = yield doctorRepository.findByEmail(email);
             if (emailExists) {
                 return res.status(409).json({ message: "Email already registered in the system" });
@@ -46,6 +99,10 @@ class AllUsers {
             }
             const phoneExists = yield doctorRepository.findByPhone(phone);
             if (phoneExists) {
+                return res.status(409).json({ message: "Phone already registered in the system" });
+            }
+            const phoneExists2 = yield doctorRepository.findByPhone(phone2);
+            if (phoneExists2) {
                 return res.status(409).json({ message: "Phone already registered in the system" });
             }
             try {

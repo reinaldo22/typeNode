@@ -2,6 +2,7 @@ import { getRepository } from 'typeorm';
 import { NextFunction } from 'express';
 import { Request, Response } from 'express';
 import Doctor from '../../models/Doctor';
+import  jwt  from 'jsonwebtoken';
 
 
 class Activate {
@@ -9,23 +10,43 @@ class Activate {
         
         const { id } = req.params;
 
-        try {
+       
         const testeRepository = getRepository(Doctor);
         
         const doctor = await testeRepository.findOne(req.params.id);
+        console.log(doctor)
         if(!doctor){
             return res.status(404).json({ message: "User not found" });
         }
-        
-        
-        doctor.activate = 1;
+        try {
+            jwt.verify(doctor.token, 'secret', function(err, decode){
+                console.log(err?.message)
+                if(err?.message === 'jwt expired' && doctor.activate === 0){
+                    
+                    return res.status(400).json({ message: "Token expired" });
 
-        await testeRepository.update(id, doctor);
+                }else{
 
+                doctor.activate = 1;
+                testeRepository.update(id,doctor);
+
+            
+                }
+            
+            })
         return res.status(200).json({ message: "Email successfully validated!" });
         } catch (error) {
-            return res.status(400).json({ message: "Something went wrong" });
+            return res.status(400).json({message:  error.message});
         }
+        
+        
+        
+        
+
+      
+
+       // return res.status(200).json({ message: "Email successfully validated!" });
+        
         
     }
 }
