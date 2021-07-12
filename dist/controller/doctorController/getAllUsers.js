@@ -134,7 +134,7 @@ class AllUsers {
                 var regexCpf = new RegExp("([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})");
                 var regexEmail = new RegExp("^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+.com$");
                 if (!regexPhone2.test(phone2) && (phone2.length != "")) {
-                    return res.status(404).json({ message: "Invalid phone2" });
+                    return res.status(404).json({ message: "Invalid phone" });
                 }
                 if (!regexPhone.test(phone)) {
                     console.log("back-end invalid phone");

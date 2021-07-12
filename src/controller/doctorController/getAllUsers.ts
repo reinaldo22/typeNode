@@ -145,7 +145,7 @@ class AllUsers{
         
         if(!regexPhone2.test(phone2)&&(phone2.length != "") ){
             
-            return res.status(404).json({ message: "Invalid phone2" }); 
+            return res.status(404).json({ message: "Invalid phone" }); 
          }
          
          if(!regexPhone.test(phone) ){
