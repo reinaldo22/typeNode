@@ -22,6 +22,7 @@ class LoginDoctorController {
             const repo = typeorm_1.getCustomRepository(doctorRepositorie_1.default);
             var regexEmail = new RegExp("^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+.com$");
             const { email, password } = req.body;
+            console.log(">>>>>>>>>email", email);
             const doctor = yield repo.findByEmail(email);
             if (!doctor) {
                 return res.status(404).json({ message: "Email not registered in the system" });
@@ -29,6 +30,7 @@ class LoginDoctorController {
             if (!(regexEmail).test(email)) {
                 return res.status(404).json({ message: 'Invalid email' });
             }
+            console.log("2 - >>>>>>>>>email", email);
             if (!doctor.password) {
                 return res.status(404).json({ message: "Inactive or invalid password" });
             }
