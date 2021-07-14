@@ -27,9 +27,10 @@ class LoginDoctorController {
             if (!doctor) {
                 return res.status(404).json({ message: "Email not registered in the system" });
             }
-            if (!(regexEmail).test(email)) {
-                return res.status(404).json({ message: 'Invalid email' });
-            }
+            /*if(!(regexEmail).test(email)){
+                return res.status(404).json({message:'Invalid email'});
+            
+            }*/
             console.log("2 - >>>>>>>>>email", email);
             if (!doctor.password) {
                 return res.status(404).json({ message: "Inactive or invalid password" });
