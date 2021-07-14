@@ -20,7 +20,7 @@ class EnableDoctorController {
 
         user.activate = 0;
         
-        await userRepository.save(user);
+        await userRepository.update(id,user);
 
         return res.status(200).json({ message: "Account successfully disabled!" });
     }

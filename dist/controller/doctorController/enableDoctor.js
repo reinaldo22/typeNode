@@ -26,7 +26,7 @@ class EnableDoctorController {
                 return res.status(404).json({ message: "This user does not exist" });
             }
             user.activate = 0;
-            yield userRepository.save(user);
+            yield userRepository.update(id, user);
             return res.status(200).json({ message: "Account successfully disabled!" });
         });
     }

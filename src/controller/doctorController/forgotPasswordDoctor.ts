@@ -88,7 +88,8 @@ class ForgotDoctorPassword {
         user.password = passwordHashed;
 
         
-        const results = await getRepository(Doctor).save(user);
+        //const results = await getRepository(Doctor).save(user);
+        const results = await getRepository(Doctor).update(user.id, user);
         return res.json(results);
         } catch (error) {
             

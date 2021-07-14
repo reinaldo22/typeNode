@@ -81,7 +81,8 @@ class ForgotDoctorPassword {
                 const salt = yield bcryptjs_1.default.genSalt(10);
                 const passwordHashed = yield bcryptjs_1.default.hash(password, salt);
                 user.password = passwordHashed;
-                const results = yield typeorm_1.getRepository(Doctor_1.default).save(user);
+                //const results = await getRepository(Doctor).save(user);
+                const results = yield typeorm_1.getRepository(Doctor_1.default).update(user.id, user);
                 return res.json(results);
             }
             catch (error) {
