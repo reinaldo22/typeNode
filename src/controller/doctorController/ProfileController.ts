@@ -41,6 +41,9 @@ class ProfileController {
     }
     const userDoc = await getRepository(Doctor).findOne(request.params.id);
     
+    if(!userDoc){
+      return response.status(404).json({message: "User not found"})
+    }
     
     if(userDoc){
       const userRepository =  getRepository(Doctor);
@@ -49,8 +52,8 @@ class ProfileController {
       userDoc.phone2 = phone2;
       userDoc.specialization = specialization;
 
-      userRepository.save(userDoc);
-      return response.status(200).json({message: "User not found"})
+      await userRepository.update(userDoc.id, userDoc);
+      return response.status(200).json({message: "Profile edited successfully"})
     } 
     } catch (error) {
       return response.status(404).json({error})

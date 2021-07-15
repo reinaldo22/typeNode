@@ -41,13 +41,16 @@ class ProfileController {
                     return response.status(404).json({ message: "Invalid phone1" });
                 }
                 const userDoc = yield typeorm_1.getRepository(Doctor_1.default).findOne(request.params.id);
+                if (!userDoc) {
+                    return response.status(404).json({ message: "User not found" });
+                }
                 if (userDoc) {
                     const userRepository = typeorm_1.getRepository(Doctor_1.default);
                     userDoc.phone = phone;
                     userDoc.phone2 = phone2;
                     userDoc.specialization = specialization;
-                    userRepository.save(userDoc);
-                    return response.status(200).json({ message: "User not found" });
+                    yield userRepository.update(userDoc.id, userDoc);
+                    return response.status(200).json({ message: "Profile edited successfully" });
                 }
             }
             catch (error) {
