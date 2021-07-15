@@ -81,7 +81,7 @@ class AllUsers {
             const doctorRepository = typeorm_1.getCustomRepository(doctorRepositorie_1.default);
             console.log(phone);
             console.log(phone2);
-            console.log(typeof (email));
+            console.log(">>>>>>>>>>>typo da variável e-mail:", typeof (email));
             const emailExists = yield doctorRepository.findByEmail(email);
             if (emailExists) {
                 return res.status(409).json({ message: "Email already registered in the system" });
@@ -133,7 +133,7 @@ class AllUsers {
                 var regexPhone2 = new RegExp("^[0-9]{11}");
                 var regexPassword = new RegExp("^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{6,13}$");
                 var regexCpf = new RegExp("([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})");
-                // var regexEmail = new RegExp("^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+.com$")
+                var regexEmail = new RegExp("^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+.com$");
                 if (!regexPhone2.test(phone2) && (phone2.length != "")) {
                     return res.status(404).json({ message: "Invalid phone" });
                 }
@@ -153,10 +153,9 @@ class AllUsers {
                 if (password.length > 13) {
                     return res.status(400).json({ message: "Maximum password of 13 characters" });
                 }
-                /*if(!(regexEmail).test(email)){
-                    return res.status(404).json({message:'Invalid email'});
-        
-                }*/
+                if (!(regexEmail).test(email)) {
+                    return res.status(404).json({ message: 'Invalid email' });
+                }
                 return res.status(201).json({ message: 'ok' });
             }
             catch (error) {
