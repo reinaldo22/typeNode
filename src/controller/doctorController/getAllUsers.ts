@@ -139,7 +139,7 @@ class AllUsers{
         var regexPhone2 =  new RegExp("^[0-9]{11}");
         var regexPassword = new RegExp("^(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z]).{6,13}$");
         var regexCpf = new RegExp("([0-9]{2}[\.]?[0-9]{3}[\.]?[0-9]{3}[\/]?[0-9]{4}[-]?[0-9]{2})|([0-9]{3}[\.]?[0-9]{3}[\.]?[0-9]{3}[-]?[0-9]{2})")
-        var regexEmail = new RegExp("^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+.com$")
+       // var regexEmail = new RegExp("^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+.com$")
        
         
         
@@ -170,10 +170,10 @@ class AllUsers{
         
         
 
-        if(!(regexEmail).test(email)){
+        /*if(!(regexEmail).test(email)){
             return res.status(404).json({message:'Invalid email'});
 
-        }
+        }*/
         
     return res.status(201).json({message:'ok'});
         } catch (error) {

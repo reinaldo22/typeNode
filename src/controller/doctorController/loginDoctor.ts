@@ -8,8 +8,11 @@ import DoctorRepository from '../../repositorie/doctorRepositorie';
 class LoginDoctorController {
     public async signInDoctor(req: Request, res: Response) {
         const repo = getCustomRepository(DoctorRepository);
+
         var regexEmail = new RegExp("^[a-zA-Z0-9]+[@]+[a-zA-Z0-9]+.com$")
+
         const { email, password } = req.body;
+        
         console.log(">>>>>>>>>email", email);
         const doctor = await repo.findByEmail(email);
         if (!doctor) {
@@ -17,7 +20,6 @@ class LoginDoctorController {
         }
         /*if(!(regexEmail).test(email)){
             return res.status(404).json({message:'Invalid email'});
-        
         }*/
         console.log("2 - >>>>>>>>>email", email);
         if (!doctor.password) {
