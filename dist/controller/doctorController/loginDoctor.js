@@ -29,7 +29,6 @@ class LoginDoctorController {
             }
             /*if(!(regexEmail).test(email)){
                 return res.status(404).json({message:'Invalid email'});
-            
             }*/
             console.log("2 - >>>>>>>>>email", email);
             if (!doctor.password) {
