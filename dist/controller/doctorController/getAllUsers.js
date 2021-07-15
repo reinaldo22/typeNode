@@ -81,7 +81,7 @@ class AllUsers {
             const doctorRepository = typeorm_1.getCustomRepository(doctorRepositorie_1.default);
             console.log(phone);
             console.log(phone2);
-            console.log(email);
+            console.log(typeof (email));
             const emailExists = yield doctorRepository.findByEmail(email);
             if (emailExists) {
                 return res.status(409).json({ message: "Email already registered in the system" });

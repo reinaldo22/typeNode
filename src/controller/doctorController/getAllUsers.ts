@@ -84,7 +84,7 @@ class AllUsers{
         
         console.log(phone)
         console.log(phone2)
-        console.log(email)
+        console.log(typeof(email));
         const emailExists = await doctorRepository.findByEmail(email);
         if (emailExists) {
             return res.status(409).json({ message: "Email already registered in the system" });
