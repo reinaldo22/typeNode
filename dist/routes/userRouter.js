@@ -22,7 +22,7 @@ routes.post('/signInDoctor', loginDoctor_1.default.signInDoctor);
 routes.get('/showProfile', [authJWT_1.verifyToken, authJWT_1.isDoctor], ProfileController_1.default.show);
 routes.put('/updateUser/:id', [authJWT_1.verifyToken, authJWT_1.isDoctor], ProfileController_1.default.updateProfile);
 routes.put('/updatePassword/:id', forgotPasswordDoctor_1.default.passwordUpdate);
-routes.patch('/enable/:id', [authJWT_1.verifyToken, authJWT_1.isDoctor], enableDoctor_1.default.enable);
+routes.put('/enable/:id', [authJWT_1.verifyToken, authJWT_1.isDoctor], enableDoctor_1.default.enable);
 routes.post('/emailUpdate', forgotPasswordDoctor_1.default.forgotDoctorPassword);
 routes.put('/updateMailSend/:id', sendEmailController_1.default.updateEmail);
 routes.post('/findEmail/', sendEmailController_1.default.findEmail);

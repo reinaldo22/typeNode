@@ -18,7 +18,7 @@ routes.post('/signInDoctor', LoginDoctorController.signInDoctor);
 routes.get('/showProfile', [verifyToken, isDoctor], ProfileController.show);
 routes.put('/updateUser/:id', [verifyToken, isDoctor],ProfileController.updateProfile);
 routes.put('/updatePassword/:id', ForgotePassword.passwordUpdate);
-routes.patch('/enable/:id',[verifyToken, isDoctor],EnableDoctorController.enable);
+routes.put('/enable/:id',[verifyToken, isDoctor],EnableDoctorController.enable);
 routes.post('/emailUpdate', ForgotePassword.forgotDoctorPassword);
 routes.put('/updateMailSend/:id', SendEmail.updateEmail);
 routes.post('/findEmail/', SendEmail.findEmail);
