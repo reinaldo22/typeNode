@@ -13,15 +13,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-const Doctor_1 = __importDefault(require("../../models/Doctor"));
+const doctorRepositorie_1 = __importDefault(require("../../repositorie/doctorRepositorie"));
 class EnableDoctorController {
     enable(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const userRepository = typeorm_1.getRepository(Doctor_1.default);
-            const user = yield userRepository.findOne({
-                where: { id },
-            });
+            const userRepository = typeorm_1.getCustomRepository(doctorRepositorie_1.default);
+            const user = yield userRepository.findById(id);
             if (!user) {
                 return res.status(404).json({ message: "This user does not exist" });
             }

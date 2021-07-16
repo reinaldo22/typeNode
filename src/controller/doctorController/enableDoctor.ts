@@ -1,6 +1,7 @@
-import { getRepository } from "typeorm";
+import { getRepository,getCustomRepository } from "typeorm";
 import Doctor from "../../models/Doctor";
 import { Request, Response } from 'express';
+import DoctorRepository from "../../repositorie/doctorRepositorie";
 
 class EnableDoctorController {
 
@@ -8,11 +9,9 @@ class EnableDoctorController {
 
         const { id } = req.params;
 
-        const userRepository = getRepository(Doctor);
+        const userRepository = getCustomRepository(DoctorRepository);
 
-        const user = await userRepository.findOne({
-            where: { id },
-        });
+        const user = await userRepository.findById(id);
 
         if (!user) {
             return res.status(404).json({ message: "This user does not exist" });
