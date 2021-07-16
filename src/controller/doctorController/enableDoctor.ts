@@ -7,11 +7,9 @@ class EnableDoctorController {
 
     public async enable(req: Request, res: Response) {
 
-        const { id } = req.params;
-
-        const userRepository = getCustomRepository(DoctorRepository);
-
-        const user = await userRepository.findById(id);
+        
+        try {
+            const user = await getRepository(Doctor).findOne(req.params.id);
 
         if (!user) {
             return res.status(404).json({ message: "This user does not exist" });
@@ -19,9 +17,13 @@ class EnableDoctorController {
 
         user.activate = 0;
         
-        await userRepository.update(id,user);
+        const result = await getRepository(Doctor).update(user.id, user);
 
         return res.status(200).json({ message: "Account successfully disabled!" });
+        } catch (error) {
+            return res.status(400).json({ message: error });
+        }
+        
     }
 }
 

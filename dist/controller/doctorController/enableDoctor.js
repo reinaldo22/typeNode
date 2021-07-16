@@ -13,19 +13,22 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const typeorm_1 = require("typeorm");
-const doctorRepositorie_1 = __importDefault(require("../../repositorie/doctorRepositorie"));
+const Doctor_1 = __importDefault(require("../../models/Doctor"));
 class EnableDoctorController {
     enable(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
-            const userRepository = typeorm_1.getCustomRepository(doctorRepositorie_1.default);
-            const user = yield userRepository.findById(id);
-            if (!user) {
-                return res.status(404).json({ message: "This user does not exist" });
+            try {
+                const user = yield typeorm_1.getRepository(Doctor_1.default).findOne(req.params.id);
+                if (!user) {
+                    return res.status(404).json({ message: "This user does not exist" });
+                }
+                user.activate = 0;
+                const result = yield typeorm_1.getRepository(Doctor_1.default).update(user.id, user);
+                return res.status(200).json({ message: "Account successfully disabled!" });
             }
-            user.activate = 0;
-            yield userRepository.update(id, user);
-            return res.status(200).json({ message: "Account successfully disabled!" });
+            catch (error) {
+                return res.status(400).json({ message: error });
+            }
         });
     }
 }
