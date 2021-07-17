@@ -17,18 +17,14 @@ const Doctor_1 = __importDefault(require("../../models/Doctor"));
 class EnableDoctorController {
     enable(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const user = yield typeorm_1.getRepository(Doctor_1.default).findOne(req.params.id);
-                if (!user) {
-                    return res.status(404).json({ message: "This user does not exist" });
-                }
-                user.activate = 0;
-                const result = yield typeorm_1.getRepository(Doctor_1.default).update(user.id, user);
-                return res.status(200).json({ message: "Account successfully disabled!" });
+            const testeRepository = typeorm_1.getRepository(Doctor_1.default);
+            const userRepository = yield testeRepository.findOne(req.params.id);
+            if (!userRepository) {
+                return res.status(404).json({ message: "This user does not exist" });
             }
-            catch (error) {
-                return res.status(400).json({ message: error });
-            }
+            userRepository.activate = 0;
+            yield testeRepository.update(userRepository.id, userRepository);
+            return res.status(200).json({ message: "Account successfully disabled!" });
         });
     }
 }
